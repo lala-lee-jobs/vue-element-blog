@@ -8,7 +8,9 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "start": "npm run serve"
+    "start": "npm run serve",
+    "deploy:firebase": "firebase deploy",
+    "deploy:heroku": "heroku static:deploy"
   },
   "dependencies": {
     "core-js": "^3.6.4",
