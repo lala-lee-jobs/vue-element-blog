@@ -43,7 +43,10 @@
             ><i class="el-icon-menu"></i>空間部署</a>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="">
+        <el-menu-item
+          :route="{name: 'Admin'}"
+          index="/admin"
+        >
           <i class="el-icon-user"></i>管理
         </el-menu-item>
       </el-menu>

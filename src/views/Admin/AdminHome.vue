@@ -1,10 +1,11 @@
 <template>
-  <router-view></router-view>
+    <div>
+        Admin Home
+    </div>
 </template>
+
 <script>
 export default {
-  name: 'App',
+  name: 'AdminHome',
 };
 </script>
-<style>
-</style>
