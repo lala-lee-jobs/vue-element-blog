@@ -1,27 +1,27 @@
 <template>
   <el-container>
     <el-header height="80px">
-      <blog-header />
+      <Header />
     </el-header>
     <el-container>
       <el-main>
         <router-view></router-view>
       </el-main>
       <el-aside width="200px">
-        <blog-aside />
+        <SideMenu />
       </el-aside>
     </el-container>
   </el-container>
 </template>
 <script>
-import BlogHeader from '@/components/blog-header.vue';
-import BlogAside from '@/components/blog-aside.vue';
+import Header from '@/components/Header.vue';
+import SideMenu from '@/components/SideMenu.vue';
 
 export default {
   name: 'App',
   components: {
-    BlogHeader,
-    BlogAside,
+    Header,
+    SideMenu,
   },
 };
 </script>
