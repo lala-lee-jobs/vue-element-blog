@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import db from './firestore';
+import * as firebase from './firebase';
 
 Vue.use(Vuex);
-const ref = db.collection('Articles');
+const ref = firebase.db.collection('Articles');
 Vue.use(Vuex);
 
 export default new Vuex.Store({
