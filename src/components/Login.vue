@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'Login',
   data() {
     return {
       validCredentials: {
@@ -80,27 +80,21 @@ export default {
     };
   },
   methods: {
-    simulateLogin() {
-      return new Promise((resolve) => {
-        setTimeout(resolve, 800);
-      });
-    },
     async login() {
       const valid = await this.$refs.form.validate();
       if (!valid) {
         return;
       }
-      this.loading = true;
-      await this.simulateLogin();
-      this.loading = false;
-      if (
-        this.model.account === this.validCredentials.account
-        && this.model.password === this.validCredentials.password
-      ) {
-        this.$message.success('Login successfull');
-      } else {
-        this.$message.error('Account or password is invalid');
-      }
+      this.$store.dispatch('signInWithEmail', this.model)
+        .then(() => {
+          this.$message({
+            message: '登入成功',
+            type: 'success',
+          });
+          this.$router.push('/admin/');
+        }).catch((error) => {
+          this.$message.error(error.message);
+        });
     },
   },
 };
@@ -126,7 +120,7 @@ export default {
   margin-bottom: 10px;
 }
 </style>
-<style lang="scss">
+<style lang="scss" scoped>
 $teal: rgb(0, 124, 137);
 .el-button--primary {
   background: $teal;

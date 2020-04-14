@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import Home from '@/views/home.vue';
 import About from '@/views/about.vue';
 import AdminHome from '@/views/admin/admin-home.vue';
@@ -7,7 +8,6 @@ import SignIn from '@/views/admin/sign-in.vue';
 /* Layout */
 import LayoutDefault from '@/layouts/index.vue';
 import LayoutAdmin from '@/layouts/admin.vue';
-
 
 Vue.use(VueRouter);
 

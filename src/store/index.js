@@ -10,10 +10,7 @@ export default new Vuex.Store({
   state: {
     loading: false,
     articles: [],
-    user: {
-      loggedIn: false,
-      data: null,
-    },
+    user: null,
   },
   getters: {
     user(state) {
@@ -27,11 +24,8 @@ export default new Vuex.Store({
     SET_ARTICLES(state, payload) {
       state.articles = payload;
     },
-    SET_LOGGED_IN(state, value) {
-      state.user.loggedIn = value;
-    },
-    SET_USER(state, data) {
-      state.user.data = data;
+    SET_USER(state, payload) {
+      state.user = payload;
     },
   },
   actions: {
@@ -43,26 +37,21 @@ export default new Vuex.Store({
       commit('SET_ARTICLES', payload);
       commit('LOADING', false);
     },
-    fetchUser({ commit }, user) {
-      commit('SET_LOGGED_IN', user !== null);
-      if (user) {
-        commit('SET_USER', user);
-      } else {
-        commit('SET_USER', null);
-      }
-    },
     signInAuto({ commit }) {
       return new Promise((resolve) => {
         auth.onAuthStateChanged((user) => {
-          if (user) {
-            commit('SET_USER', user);
-          }
+          commit('SET_USER', user);
           resolve(user);
         });
       });
     },
     signInWithEmail(_context, { account, password }) {
       return auth.signInWithEmailAndPassword(account, password).then((user) => user);
+    },
+    signOut({ commit }) {
+      return auth.signOut().then(() => {
+        commit('SET_USER', null);
+      });
     },
   },
   modules: {
