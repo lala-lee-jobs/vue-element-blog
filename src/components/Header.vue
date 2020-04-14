@@ -44,8 +44,8 @@
           </el-menu-item>
         </el-submenu>
         <el-menu-item
-          :route="{name: 'Admin'}"
-          index="/admin"
+          :route="{name: 'AdminHome'}"
+          index="/admin/"
         >
           <i class="el-icon-user"></i>管理
         </el-menu-item>

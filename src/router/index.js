@@ -1,39 +1,46 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
-import Admin from '@/views/Admin.vue';
-import AdminHome from '@/views/Admin/AdminHome.vue';
+import Home from '@/views/home.vue';
+import About from '@/views/about.vue';
+import AdminHome from '@/views/admin/admin-home.vue';
+import SignIn from '@/views/admin/sign-in.vue';
 /* Layout */
-import Layout from '@/layout';
+import LayoutDefault from '@/layouts/index.vue';
+import LayoutAdmin from '@/layouts/admin.vue';
+
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Layout,
+    component: LayoutDefault,
     children: [
       {
         path: '',
+        name: 'Home',
         component: Home,
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: About,
       },
     ],
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About,
-  },
-  {
     path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    component: LayoutAdmin,
     children: [
       {
         path: '',
+        name: 'AdminHome',
         component: AdminHome,
+      },
+      {
+        path: 'sign-in',
+        name: 'SignIn',
+        component: SignIn,
       },
     ],
   },

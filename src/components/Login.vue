@@ -9,18 +9,18 @@
         ref="form"
         @submit.native.prevent="login"
       >
-        <el-form-item prop="username">
+        <el-form-item prop="account">
           <el-input
-            v-model="model.username"
-            placeholder="Username"
-            prefix-icon="fas fa-user" />
+            v-model="model.account"
+            placeholder="Account"
+            prefix-icon="el-icon-user-solid" />
         </el-form-item>
         <el-form-item prop="password">
           <el-input
             v-model="model.password"
             placeholder="Password"
             type="password"
-            prefix-icon="fas fa-lock"
+            prefix-icon="el-icon-lock"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -47,24 +47,24 @@ export default {
   data() {
     return {
       validCredentials: {
-        username: 'lightscope',
+        account: 'lightscope',
         password: 'lightscope',
       },
       model: {
-        username: '',
+        account: '',
         password: '',
       },
       loading: false,
       rules: {
-        username: [
+        account: [
           {
             required: true,
-            message: 'Username is required',
+            message: 'Account is required',
             trigger: 'blur',
           },
           {
             min: 4,
-            message: 'Username length should be at least 5 characters',
+            message: 'Account length should be at least 5 characters',
             trigger: 'blur',
           },
         ],
@@ -94,12 +94,12 @@ export default {
       await this.simulateLogin();
       this.loading = false;
       if (
-        this.model.username === this.validCredentials.username
+        this.model.account === this.validCredentials.account
         && this.model.password === this.validCredentials.password
       ) {
         this.$message.success('Login successfull');
       } else {
-        this.$message.error('Username or password is invalid');
+        this.$message.error('Account or password is invalid');
       }
     },
   },
@@ -148,7 +148,6 @@ $teal: rgb(0, 124, 137);
   height: calc(100% - 2px);
   left: 1px;
   top: 1px;
-  border-radius: 3px;
   .el-input__icon {
     width: 30px;
   }
