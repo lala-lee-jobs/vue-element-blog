@@ -9,13 +9,7 @@
         <el-input v-model="formData.title"></el-input>
       </el-form-item>
       <el-form-item label="Content">
-        <el-input
-          type="textarea"
-          :rows="2"
-          placeholder="Please input"
-          v-model="formData.content">
-        </el-input>
-        <mavon-editor v-model="formData.content" />
+        <TheMarkdownEditor v-model="formData.content" />
       </el-form-item>
     </el-form>
     <pre>{{foundArticle}}</pre>
@@ -24,29 +18,17 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import mavonEditor from 'mavon-editor';
-import 'mavon-editor/dist/css/index.css';
+import TheMarkdownEditor from '@/components/TheMarkdownEditor.vue';
 
 export default {
   components: {
-    mavonEditor,
+    TheMarkdownEditor,
   },
   data() {
     return {
       formData: {
         titile: '',
         content: '# your markdown content',
-      },
-      mdOptions: {
-        markdownIt: {
-          linkify: true,
-        },
-        linkAttributes: {
-          attrs: {
-            target: '_blank',
-            rel: 'noopener',
-          },
-        },
       },
     };
   },
