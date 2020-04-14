@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Login',
   data() {
@@ -54,7 +56,6 @@ export default {
         account: '',
         password: '',
       },
-      loading: false,
       rules: {
         account: [
           {
@@ -79,6 +80,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(['loading']),
+  },
   methods: {
     async login() {
       const valid = await this.$refs.form.validate();
@@ -91,7 +95,7 @@ export default {
             message: '登入成功',
             type: 'success',
           });
-          this.$router.push('/admin/');
+          this.$router.push({ name: 'AdminHome' });
         }).catch((error) => {
           this.$message.error(error.message);
         });

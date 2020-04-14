@@ -11,24 +11,33 @@ export default new Vuex.Store({
     loading: false,
     articles: [],
     user: null,
+    articleID: '',
   },
   getters: {
-    user(state) {
-      return state.user;
+    foundArticle(state) {
+      const found = state.articles.find((item) => item.id === state.articleID);
+      console.log('found', found);
+      return found;
     },
   },
   mutations: {
     LOADING(state, value) {
       state.loading = value;
     },
-    SET_ARTICLES(state, payload) {
-      state.articles = payload;
-    },
     SET_USER(state, payload) {
       state.user = payload;
     },
+    SET_ARTICLES(state, payload) {
+      state.articles = payload;
+    },
+    SET_ARTICLE_ID(state, payload) {
+      state.articleID = payload;
+    },
   },
   actions: {
+    changeArticleID({ commit }, payload) {
+      commit('SET_ARTICLE_ID', payload);
+    },
     async fetchArticles({ commit }) {
       commit('LOADING', true);
       const result = await ref.get();
