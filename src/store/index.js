@@ -21,7 +21,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    LOADING(state, value) {
+    SET_LOADING(state, value) {
       state.loading = value;
     },
     SET_USER(state, payload) {
@@ -35,16 +35,22 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    startLoading({ commit }) {
+      commit('SET_LOADING', true);
+    },
+    stopLoading({ commit }) {
+      commit('SET_LOADING', false);
+    },
     changeArticleID({ commit }, payload) {
       commit('SET_ARTICLE_ID', payload);
     },
     async fetchArticles({ commit }) {
-      commit('LOADING', true);
+      commit('SET_LOADING', true);
       const result = await ref.get();
       const payload = [];
       result.forEach((item) => payload.push({ id: item.id, ...item.data() }));
       commit('SET_ARTICLES', payload);
-      commit('LOADING', false);
+      commit('SET_LOADING', false);
     },
     signInAuto({ commit }) {
       return new Promise((resolve) => {
