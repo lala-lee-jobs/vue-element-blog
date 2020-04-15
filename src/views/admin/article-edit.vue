@@ -27,17 +27,11 @@
         variant="primary"
       >送出</b-button>
     </b-form>
-    <b-card
-      class="mt-3"
-      header="Form Data Result"
-    >
-      <pre class="m-0">{{ formData }}</pre>
-    </b-card>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import AppMarkdownEditor from '@/components/AppMarkdownEditor.vue';
 
 export default {
@@ -48,7 +42,7 @@ export default {
     return {
       formData: {
         title: '',
-        content: '# your markdown content',
+        content: '',
       },
     };
   },
@@ -57,17 +51,29 @@ export default {
   },
   watch: {
     article(value) {
-      this.formData.title = value.title;
-      this.formData.content = value.content;
+      this.formData = {
+        title: value.title,
+        content: value.content,
+      };
     },
   },
   mounted() {
     const { id } = this.$route.params;
-    this.$store.dispatch('fetchArticle', id);
+    this.fetchArticle(id);
   },
   methods: {
-    onSubmit() {
-      console.log('submit');
+    ...mapActions(['fetchArticle', 'updateArticle']),
+    async onSubmit() {
+      const { id } = this.$route.params;
+      const submitData = {
+        id,
+        newArticle: { ...this.article, ...this.formData },
+      };
+      await this.updateArticle(submitData);
+      this.goBack();
+    },
+    goBack() {
+      this.$router.go(-1);
     },
   },
 };

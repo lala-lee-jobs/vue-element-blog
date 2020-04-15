@@ -1,35 +1,47 @@
 <template>
   <div v-if="user">
+    <br />
     <b-button @click="confirmSignOut">登出</b-button>
-    <b-table
-      responsive
-      :fields="fields"
-      :items="articles"
-    >
-      <template v-slot:cell(tags)="data">
-        <b-form-tag
-          v-for="(tag, index) in data.value"
+    <br /><br />
+    <b-list-group>
+      <template v-for="(item, index) in articles">
+        <b-list-group-item
           :key="index"
-          class="mr-1"
+          class="d-flex justify-content-between align-items-center"
         >
-          {{ tag }}
-        </b-form-tag>
+          <div class="d-flex align-items-center">
+            <div class="mr-10">{{ item.title }}</div>
+            <div>
+              <b-form-tag
+                v-for="tag in item.tags"
+                :key="tag"
+                :title="tag"
+              >{{ tag }}</b-form-tag>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="mr-2">
+              <font-awesome-icon :icon="['far', 'clock']" />
+            </div>
+            <div class="mr-2">
+              {{ item.datetime | moment("YYYY-MM-DD hh:mm")}}
+            </div>
+            <b-button
+              class="mr-2"
+              size="sm"
+              variant="primary"
+              @click="handleEdit(item.id)"
+            >編輯</b-button>
+            <b-button
+              class="mr-1"
+              size="sm"
+              variant="danger"
+              @click="handleDelete(item.id)"
+            >刪除</b-button>
+          </div>
+        </b-list-group-item>
       </template>
-      <template v-slot:cell(id)="data">
-        <b-button
-          class="mr-1"
-          size="sm"
-          variant="primary"
-          @click="handleEdit(data.value)"
-        >編輯</b-button>
-        <b-button
-          class="mr-1"
-          size="sm"
-          variant="danger"
-          @click="handleDelete(data.value)"
-        >刪除</b-button>
-      </template>
-    </b-table>
+    </b-list-group>
   </div>
 </template>
 
@@ -40,7 +52,6 @@ export default {
   name: 'AdminHome',
   data() {
     return {
-      fields: ['title', 'datetime', 'tags', 'content', 'id'],
     };
   },
   mounted() {

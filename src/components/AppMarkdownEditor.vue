@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      loadingText: '拼命加载中',
+      loadingText: '',
     };
   },
   computed: {

@@ -49,8 +49,13 @@ export default new Vuex.Store({
     },
     async fetchArticle({ commit }, payload) {
       commit('SET_LOADING', true);
-      const doc = await articlesRef.doc(payload).get();
-      commit('SET_ARTICLE', doc.data());
+      const result = await articlesRef.doc(payload).get();
+      commit('SET_ARTICLE', result.data());
+      commit('SET_LOADING', false);
+    },
+    async updateArticle({ commit }, { id, newArticle }) {
+      commit('SET_LOADING', true);
+      await articlesRef.doc(id).set(newArticle);
       commit('SET_LOADING', false);
     },
     signInAuto({ commit }) {
