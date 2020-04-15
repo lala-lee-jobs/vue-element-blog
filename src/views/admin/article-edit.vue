@@ -1,8 +1,6 @@
 <template>
   <div>
-    <b-form
-      @submit="onSubmit"
-    >
+    <b-form>
       <b-form-group
         id="input-group-1"
         label="文章標題:"
@@ -23,8 +21,8 @@
         <AppMarkdownEditor v-model="formData.content" />
       </b-form-group>
       <b-button
-        type="submit"
         variant="primary"
+        @click="onSubmit"
       >送出</b-button>
     </b-form>
   </div>
@@ -33,6 +31,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import AppMarkdownEditor from '@/components/AppMarkdownEditor.vue';
+import { mavonEditor } from 'mavon-editor';
 
 export default {
   components: {
@@ -64,6 +63,10 @@ export default {
   methods: {
     ...mapActions(['fetchArticle', 'updateArticle']),
     async onSubmit() {
+      const mdit = mavonEditor.getMarkdownIt();
+      const env = {};
+      mdit.render(this.formData.content, env);
+      this.formData.title = env.title;
       const { id } = this.$route.params;
       const submitData = {
         id,

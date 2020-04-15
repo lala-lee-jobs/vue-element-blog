@@ -21,6 +21,8 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
     "firebase": "^7.14.0",
+    "markdown-it": "^10.0.0",
+    "markdown-it-title": "^3.0.0",
     "markdown-it-vue": "^1.0.11",
     "mavon-editor": "^2.8.3",
     "vue": "^2.6.11",
