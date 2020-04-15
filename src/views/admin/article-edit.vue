@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import AppMarkdownEditor from '@/components/AppMarkdownEditor.vue';
 
 export default {
@@ -47,27 +47,25 @@ export default {
   data() {
     return {
       formData: {
-        titile: '',
+        title: '',
         content: '# your markdown content',
       },
     };
   },
   computed: {
-    ...mapGetters(['foundArticle']),
+    ...mapState(['article']),
   },
   watch: {
-    foundArticle(value) {
+    article(value) {
       this.formData.title = value.title;
       this.formData.content = value.content;
-      console.log('formData', this.formData);
     },
   },
   mounted() {
     const { id } = this.$route.params;
-    this.changeArticleID(id);
+    this.$store.dispatch('fetchArticle', id);
   },
   methods: {
-    ...mapActions(['changeArticleID']),
     onSubmit() {
       console.log('submit');
     },

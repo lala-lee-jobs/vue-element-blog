@@ -11,14 +11,9 @@ export default new Vuex.Store({
     loading: false,
     articles: [],
     user: null,
-    articleID: '',
+    article: null,
   },
   getters: {
-    foundArticle(state) {
-      const found = state.articles.find((item) => item.id === state.articleID);
-      console.log('found', found);
-      return found;
-    },
   },
   mutations: {
     SET_LOADING(state, value) {
@@ -30,8 +25,8 @@ export default new Vuex.Store({
     SET_ARTICLES(state, payload) {
       state.articles = payload;
     },
-    SET_ARTICLE_ID(state, payload) {
-      state.articleID = payload;
+    SET_ARTICLE(state, payload) {
+      state.article = payload;
     },
   },
   actions: {
@@ -50,6 +45,12 @@ export default new Vuex.Store({
       const payload = [];
       result.forEach((item) => payload.push({ id: item.id, ...item.data() }));
       commit('SET_ARTICLES', payload);
+      commit('SET_LOADING', false);
+    },
+    async fetchArticle({ commit }, payload) {
+      commit('SET_LOADING', true);
+      const doc = await articlesRef.doc(payload).get();
+      commit('SET_ARTICLE', doc.data());
       commit('SET_LOADING', false);
     },
     signInAuto({ commit }) {
