@@ -1,16 +1,16 @@
 <template>
   <div class="sign-in">
-      <Login />
+      <AppLogin />
   </div>
 </template>
 
 <script>
-import Login from '@/components/Login.vue';
+import AppLogin from '@/components/AppLogin.vue';
 
 export default {
   name: 'SignIn',
   components: {
-    Login,
+    AppLogin,
   },
 };
 </script>

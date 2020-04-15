@@ -43,23 +43,11 @@ export default {
       const storageRef = firebase.storage().ref();
       if ($file) {
         this.startLoading();
-        console.log(pos, $file, storageRef);
         const uploadTask = storageRef.child(`images/${new Date().getTime()}.jpg`).put($file);
         uploadTask.on('state_changed',
           (snapshot) => {
             const progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             this.loadingText = `圖片上傳進度：${progress}%`;
-            console.log('loadingText', this.loadingText);
-            switch (snapshot.state) {
-              case firebase.storage.TaskState.PAUSED: // or 'paused'
-                console.log('Upload is paused');
-                break;
-              case firebase.storage.TaskState.RUNNING: // or 'running'
-                console.log('Upload is running');
-                break;
-              default:
-                break;
-            }
           },
           (error) => {
             // Handle unsuccessful uploads

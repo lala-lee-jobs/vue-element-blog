@@ -9,7 +9,7 @@
         <el-input v-model="formData.title"></el-input>
       </el-form-item>
       <el-form-item label="Content">
-        <TheMarkdownEditor v-model="formData.content" />
+        <AppMarkdownEditor v-model="formData.content" />
       </el-form-item>
     </el-form>
     <pre>{{foundArticle}}</pre>
@@ -18,11 +18,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import TheMarkdownEditor from '@/components/TheMarkdownEditor.vue';
+import AppMarkdownEditor from '@/components/AppMarkdownEditor.vue';
 
 export default {
   components: {
-    TheMarkdownEditor,
+    AppMarkdownEditor,
   },
   data() {
     return {

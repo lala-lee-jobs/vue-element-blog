@@ -1,29 +1,29 @@
 <template>
   <el-container v-loading="loading">
     <el-header height="80px">
-      <Header />
+      <AppHeader />
     </el-header>
     <el-container>
       <el-main>
         <router-view></router-view>
       </el-main>
       <el-aside>
-        <SideMenu />
+        <AppSideMenu />
       </el-aside>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
-import SideMenu from '@/components/SideMenu.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AppSideMenu from '@/components/AppSideMenu.vue';
 import { mapState } from 'vuex';
 
 export default {
   name: 'Layout',
   components: {
-    Header,
-    SideMenu,
+    AppHeader,
+    AppSideMenu,
   },
   computed: {
     ...mapState(['loading']),
