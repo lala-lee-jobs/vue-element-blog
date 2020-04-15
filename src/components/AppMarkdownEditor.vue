@@ -1,19 +1,30 @@
 <template>
-  <mavon-editor
-    v-loading="loading"
-    :element-loading-text="loadingText"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-    ref=md language="zh-TW"
-    @imgAdd="$imgAdd"
-    v-model="mdValue" />
+  <div style="position: relative">
+    <loading
+      :active.sync="isLoading"
+      :is-full-page="false"
+    >
+      <template slot="default">
+        <font-awesome-icon icon="spinner" pulse />
+      </template>
+      <template slot="after">
+        <span style="margin-left:1rem">{{ loadingText }}</span>
+      </template>
+    </loading>
+    <mavon-editor
+      ref=md
+      language="zh-TW"
+      @imgAdd="$imgAdd"
+      v-model="mdValue"
+    ></mavon-editor>
+  </div>
 </template>
 <script>
 import * as firebase from 'firebase/app';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
-  name: 'TheMarkdownEditor',
+  name: 'AppMarkdownEditor',
   props: {
     value: {
       type: String,
@@ -22,11 +33,11 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       loadingText: '拼命加载中',
     };
   },
   computed: {
-    ...mapState(['loading']),
     mdValue: {
       get() {
         return this.value;
@@ -42,7 +53,7 @@ export default {
     $imgAdd(pos, $file) {
       const storageRef = firebase.storage().ref();
       if ($file) {
-        this.startLoading();
+        this.isLoading = true;
         const uploadTask = storageRef.child(`images/${new Date().getTime()}.jpg`).put($file);
         uploadTask.on('state_changed',
           (snapshot) => {
@@ -61,7 +72,7 @@ export default {
                 console.log('File available at', downloadURL);
                 this.$refs.md.$img2Url(pos, downloadURL);
               });
-            this.stopLoading();
+            this.isLoading = false;
           });
       }
     },

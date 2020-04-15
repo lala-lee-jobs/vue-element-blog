@@ -25,8 +25,8 @@
         <b-button
           class="mr-1"
           size="sm"
-          variant="danger" @click="
-          handleDelete(data.value)"
+          variant="danger"
+          @click="handleDelete(data.value)"
         >刪除</b-button>
       </template>
     </b-table>
@@ -42,6 +42,9 @@ export default {
     return {
       fields: ['title', 'datetime', 'tags', 'content', 'id'],
     };
+  },
+  mounted() {
+    this.$store.dispatch('fetchArticles');
   },
   computed: {
     ...mapState(['user', 'articles']),

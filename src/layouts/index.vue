@@ -17,16 +17,12 @@
 <script>
 import AppHeader from '@/components/AppHeader.vue';
 import AppSideMenu from '@/components/AppSideMenu.vue';
-import { mapState } from 'vuex';
 
 export default {
-  name: 'Layout',
+  name: 'LayoutDefault',
   components: {
     AppHeader,
     AppSideMenu,
-  },
-  computed: {
-    ...mapState(['loading']),
   },
 };
 </script>

@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import * as fireinit from '@/fireinit';
 
 Vue.use(Vuex);
-const ref = fireinit.db.collection('Articles');
+const articlesRef = fireinit.db.collection('Articles');
 const { auth } = fireinit;
 
 export default new Vuex.Store({
@@ -46,7 +46,7 @@ export default new Vuex.Store({
     },
     async fetchArticles({ commit }) {
       commit('SET_LOADING', true);
-      const result = await ref.get();
+      const result = await articlesRef.get();
       const payload = [];
       result.forEach((item) => payload.push({ id: item.id, ...item.data() }));
       commit('SET_ARTICLES', payload);
