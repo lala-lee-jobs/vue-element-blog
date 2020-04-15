@@ -60,8 +60,12 @@ export default new Vuex.Store({
         });
       });
     },
-    signInWithEmail(_context, { account, password }) {
-      return auth.signInWithEmailAndPassword(account, password).then((user) => user);
+    signInWithEmail({ commit }, { account, password }) {
+      commit('SET_LOADING', true);
+      return auth.signInWithEmailAndPassword(account, password).then((user) => {
+        commit('SET_LOADING', false);
+        return user;
+      });
     },
     signOut({ commit }) {
       return auth.signOut().then(() => {

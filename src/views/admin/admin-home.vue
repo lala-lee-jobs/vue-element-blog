@@ -1,52 +1,35 @@
 <template>
-  <div>
-    <h3>Admin Home</h3>
-    <div v-if="user">
-      <el-button @click="confirmSignOut">登出</el-button>
-      <el-table
-        :data="articles"
-        style="width: 100%"
-      >
-        <el-table-column
-          prop="title"
-          label="標題"
-          width="300"
+  <div v-if="user">
+    <b-button @click="confirmSignOut">登出</b-button>
+    <b-table
+      responsive
+      :fields="fields"
+      :items="articles"
+    >
+      <template v-slot:cell(tags)="data">
+        <b-form-tag
+          v-for="(tag, index) in data.value"
+          :key="index"
+          class="mr-1"
         >
-        </el-table-column>
-        <el-table-column
-          prop="content"
-          label="文章內容"
-          width="300"
-        >
-        </el-table-column>
-        <el-table-column
-          label="標籤分類"
-          width="300"
-        >
-          <template slot-scope="scope">
-            <el-tag
-              type="info"
-              style="margin: 1px;"
-              v-for="(tag, index) in scope.row.tags"
-              :key="index"
-            >{{ tag }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="Operations">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+          {{ tag }}
+        </b-form-tag>
+      </template>
+      <template v-slot:cell(id)="data">
+        <b-button
+          class="mr-1"
+          size="sm"
+          variant="primary"
+          @click="handleEdit(data.value)"
+        >編輯</b-button>
+        <b-button
+          class="mr-1"
+          size="sm"
+          variant="danger" @click="
+          handleDelete(data.value)"
+        >刪除</b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -55,6 +38,11 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'AdminHome',
+  data() {
+    return {
+      fields: ['title', 'datetime', 'tags', 'content', 'id'],
+    };
+  },
   computed: {
     ...mapState(['user', 'articles']),
   },
@@ -69,19 +57,19 @@ export default {
   methods: {
     ...mapActions(['signOut']),
     confirmSignOut() {
-      this.$confirm('確定登出？', 'Warning', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        type: 'warning',
-      }).then(() => {
-        this.signOut();
-      }).catch(() => {});
+      this.$bvModal
+        .msgBoxConfirm('Are you sure?')
+        .then((confirm) => {
+          if (confirm) {
+            this.signOut();
+          }
+        });
     },
-    handleEdit(index, row) {
-      this.$router.push(`/admin/article-edit/${row.id}`);
+    handleEdit(id) {
+      this.$router.push(`/admin/article-edit/${id}`);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    handleDelete(id) {
+      console.log(id);
     },
   },
 };

@@ -1,17 +1,17 @@
 <template>
-  <el-container v-loading="loading">
-    <el-header height="80px">
-      <AppHeader />
-    </el-header>
-    <el-container>
-      <el-main>
+  <div class="container l-default">
+    <header>
+      <AppHeader/>
+    </header>
+    <main>
+      <article>
         <router-view></router-view>
-      </el-main>
-      <el-aside>
-        <AppSideMenu />
-      </el-aside>
-    </el-container>
-  </el-container>
+      </article>
+      <aside>
+        <AppSideMenu></AppSideMenu>
+      </aside>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -30,3 +30,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.l-default {
+  main {
+    display: flex;
+    article {
+      flex: 1 1 70%;
+    }
+    aside {
+      flex: 1 1 30%;
+    }
+  }
+}
+</style>

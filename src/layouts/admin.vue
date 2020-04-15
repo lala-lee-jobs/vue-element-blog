@@ -1,6 +1,9 @@
 <template>
-  <div class="layout-admin">
-    <router-view></router-view>
+  <div class="l-admin">
+    <b-container>
+      <h1>管理者後台</h1>
+      <router-view></router-view>
+    </b-container>
   </div>
 </template>
 

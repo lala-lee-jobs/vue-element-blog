@@ -1,57 +1,29 @@
 <template>
-  <div class="header">
-    <h1 class="logo">
-      <img
-        src="../assets/logo.png"
-        alt="lala-code-blog"
-      />
-    </h1>
-    <nav>
-      <div class="search">
-        <el-input
-          prefix-icon="el-icon-search"
-          placeholder="Search"
-          v-model="keyword"
-          clearable
-        ></el-input>
-      </div>
-      <el-menu
-        mode="horizontal"
-        :router="true"
-        :default-active="$route.name"
-      >
-        <el-menu-item
-          :route="{name: 'Home'}"
-          index="/"
-        >首頁</el-menu-item>
-        <el-menu-item
-          :route="{name: 'About'}"
-          index="/about"
-        >關於</el-menu-item>
-        <el-submenu index="3">
-          <template slot="title">學習參考</template>
-          <el-menu-item index="3-1">
-            <a
-              href="https://vuejs.org/index.html"
-              target="_blank"
-            ><i class="el-icon-menu"></i>Vue學習</a>
-          </el-menu-item>
-          <el-menu-item index="3-2">
-            <a
-              href="https://vuejs.org/index.html"
-              target="_blank"
-            ><i class="el-icon-menu"></i>空間部署</a>
-          </el-menu-item>
-        </el-submenu>
-        <el-menu-item
-          :route="{name: 'AdminHome'}"
-          index="/admin/"
-        >
-          <i class="el-icon-user"></i>管理
-        </el-menu-item>
-      </el-menu>
-    </nav>
-  </div>
+  <b-navbar toggleable="lg" type="light">
+    <b-navbar-brand href="#">
+      <h1 class="logo">
+        <img
+          src="../assets/logo.png"
+          alt="lala-code-blog"
+        />
+      </h1>
+    </b-navbar-brand>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item :to="{name: 'Home'}">首頁</b-nav-item>
+        <b-nav-item :to="{name: 'About'}">關於</b-nav-item>
+      </b-navbar-nav>
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-form>
+          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+        </b-nav-form>
+        <b-nav-item :to="{name: 'AdminHome'}">管理</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
@@ -66,13 +38,6 @@ export default {
 
 <style lang="scss" scoped>
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 80px;;
-}
-
 h1.logo {
   margin-right: 20px;
   height: 80px;
@@ -81,24 +46,6 @@ h1.logo {
     max-height: 100%;
     display: block;
   }
-}
-
-nav {
-  display: flex;
-  align-items: center;
-}
-
-.el-menu-item {
-  a {
-    white-space: nowrap;
-    padding: 0;
-    text-decoration: none;
-    color: #000;
-  }
-}
-
-.el-menu.el-menu--horizontal {
-  border-bottom: 0;;
 }
 
 </style>
