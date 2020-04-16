@@ -1,9 +1,9 @@
 <template>
   <b-navbar toggleable="lg" type="light">
-    <b-navbar-brand href="#">
+    <b-navbar-brand href="/">
       <h1 class="logo">
         <img
-          src="../assets/logo.png"
+          src="@/assets/logo.png"
           alt="lala-code-blog"
         />
       </h1>
