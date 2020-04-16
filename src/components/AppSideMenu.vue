@@ -1,6 +1,7 @@
 <template>
   <section class="side-nav">
-    <b-card header="文章列表">
+    <b-card header="關於作者" class="mb-4"></b-card>
+    <b-card header="最新文章">
       <b-list-group>
         <b-list-group-item
           href="#"
