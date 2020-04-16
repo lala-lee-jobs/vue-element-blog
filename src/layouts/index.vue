@@ -3,14 +3,14 @@
     <header>
       <AppHeader/>
     </header>
-    <main>
-      <article>
+    <div class="l-default__main">
+      <main>
         <router-view></router-view>
-      </article>
+      </main>
       <aside>
         <AppSideMenu></AppSideMenu>
       </aside>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -24,17 +24,21 @@ export default {
     AppHeader,
     AppSideMenu,
   },
+  mounted() {
+    this.$store.dispatch('fetchArticles');
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .l-default {
-  main {
+  &__main {
     display: flex;
-    article {
+    >main {
       flex: 1 1 70%;
+      padding-right: 20px;
     }
-    aside {
+    >aside {
       flex: 1 1 30%;
     }
   }

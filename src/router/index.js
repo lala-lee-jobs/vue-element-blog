@@ -4,6 +4,7 @@ import store from '@/store';
 
 import Home from '@/views/home.vue';
 import About from '@/views/about.vue';
+import Article from '@/views/article.vue';
 import AdminHome from '@/views/admin/admin-home.vue';
 import ArticleEdit from '@/views/admin/article-edit.vue';
 import SignIn from '@/views/admin/sign-in.vue';
@@ -27,6 +28,11 @@ const routes = [
         path: 'about',
         name: 'About',
         component: About,
+      },
+      {
+        path: 'article/:id',
+        name: 'Article',
+        component: Article,
       },
     ],
   },

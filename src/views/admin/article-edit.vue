@@ -14,7 +14,7 @@
     <AppMarkdownEditor v-model="content" />
     <b-alert
       v-model="showErrorAlert"
-      class="position-fixed fixed-top m-0 rounded-0"
+      class="position-fixed fixed-top m-0 py-3 rounded-0"
       style="z-index: 2000;"
       variant="danger"
       dismissible
