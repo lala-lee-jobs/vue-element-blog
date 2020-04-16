@@ -1,10 +1,16 @@
 <template>
-  <div class="d-flex flex-column align-items-end">
-    <b-button
-      class="my-3"
-      variant="primary"
-      @click="onSubmit"
-    >送出</b-button>
+  <div>
+    <div class="d-flex my-3 align-items-end justify-content-end">
+      <b-button
+        variant="outline-dark"
+        class="mr-3"
+        @click.prevent="goBack"
+      >返回</b-button>
+      <b-button
+        variant="primary"
+        @click.prevent="onSubmit"
+      >送出</b-button>
+    </div>
     <AppMarkdownEditor v-model="content" />
     <b-alert
       v-model="showErrorAlert"
@@ -43,11 +49,13 @@ export default {
     },
   },
   mounted() {
-    const { id } = this.$route.params;
-    this.fetchArticle(id);
+    if (this.$route.name === 'ArticleEdit') {
+      const { id } = this.$route.params;
+      this.fetchArticle(id);
+    }
   },
   methods: {
-    ...mapActions(['fetchArticle', 'updateArticle']),
+    ...mapActions(['fetchArticle', 'updateArticle', 'addArticle']),
     async onSubmit() {
       const { content } = this;
       const mdit = mavonEditor.getMarkdownIt();
@@ -55,28 +63,38 @@ export default {
       mdit.render(content, env);
 
       const { title, tags } = env;
+
+      this.errorMessage = '';
       if (!title) {
-        this.showErrorAlert = true;
         this.errorMessage = '請在文件開頭使用 `#` 或是 `=` 完成標題';
-        return;
-      }
-      if (!tags || tags.length === 0) {
-        this.showErrorAlert = true;
+      } else if (!tags) {
         this.errorMessage = '請在文件內使用 `###### tags: `，至少加上一個tag';
+      } else if (!content) {
+        this.errorMessage = '請輸入文件內容';
+      }
+
+      this.showErrorAlert = !!this.errorMessage.length;
+
+      if (this.showErrorAlert) {
         return;
       }
 
-      const { id } = this.$route.params;
       const submitData = {
-        id,
         newArticle: {
-          ...this.article,
           title,
           content,
           tags,
+          datetime: new Date().getTime(),
         },
       };
-      await this.updateArticle(submitData);
+
+      if (this.$route.name === 'ArticleEdit') {
+        const { id } = this.$route.params;
+        submitData.id = id;
+        await this.updateArticle(submitData);
+      } else {
+        await this.addArticle(submitData);
+      }
       this.goBack();
     },
     goBack() {

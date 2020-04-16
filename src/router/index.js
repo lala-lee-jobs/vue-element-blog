@@ -51,6 +51,14 @@ const routes = [
         },
       },
       {
+        path: 'article-add',
+        name: 'ArticleAdd',
+        component: ArticleEdit,
+        meta: {
+          requireAuth: true,
+        },
+      },
+      {
         path: 'sign-in',
         name: 'SignIn',
         component: SignIn,

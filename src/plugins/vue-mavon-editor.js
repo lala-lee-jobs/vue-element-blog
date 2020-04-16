@@ -13,6 +13,7 @@ function markdownItTags(md, level = 6) {
       env.tags = tokens[idx + 1].children
         .filter((t) => ['code_inline'].includes(t.type))
         .map((item) => item.content);
+      env.tags = (env.tags.length) ? env.tags : null;
     }
 
     // Execute original rule.

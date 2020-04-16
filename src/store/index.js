@@ -28,6 +28,10 @@ export default new Vuex.Store({
     SET_ARTICLE(state, payload) {
       state.article = payload;
     },
+    DELETE_ARTICLE(state, payload) {
+      const findIndex = state.articles.findIndex((item) => item.id === payload);
+      state.articles.splice(findIndex, 1);
+    },
   },
   actions: {
     startLoading({ commit }) {
@@ -56,6 +60,17 @@ export default new Vuex.Store({
     async updateArticle({ commit }, { id, newArticle }) {
       commit('SET_LOADING', true);
       await articlesRef.doc(id).set(newArticle);
+      commit('SET_LOADING', false);
+    },
+    async deleteArticle({ commit }, id) {
+      commit('SET_LOADING', true);
+      await articlesRef.doc(id).delete();
+      commit('DELETE_ARTICLE', id);
+      commit('SET_LOADING', false);
+    },
+    async addArticle({ commit }, { newArticle }) {
+      commit('SET_LOADING', true);
+      await articlesRef.add(newArticle);
       commit('SET_LOADING', false);
     },
     signInAuto({ commit }) {

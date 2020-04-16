@@ -1,23 +1,24 @@
 <template>
   <div v-if="user">
-    <br />
-    <b-button @click="confirmSignOut">登出</b-button>
-    <br /><br />
+    <div class="d-flex my-2">
+      <b-button @click="handleAdd">新增</b-button>
+    </div>
     <b-list-group>
       <template v-for="(item, index) in articles">
         <b-list-group-item
           :key="index"
           class="d-flex justify-content-between align-items-center"
         >
-          <div class="d-flex align-items-center">
+          <div class="d-flex">
             <div class="mr-10">{{ item.title }}</div>
-            <div>
-              <b-form-tag
-                v-for="tag in item.tags"
-                :key="tag"
-                :title="tag"
-              >{{ tag }}</b-form-tag>
-            </div>
+            <h6>
+              <template v-for="tag in item.tags">
+                <b-badge
+                  class="ml-1"
+                  :key="tag"
+                >{{ tag }}</b-badge>
+              </template>
+            </h6>
           </div>
           <div class="d-flex align-items-center">
             <div class="mr-2">
@@ -42,6 +43,9 @@
         </b-list-group-item>
       </template>
     </b-list-group>
+    <div>
+      <b-button @click="confirmSignOut">登出</b-button>
+    </div>
   </div>
 </template>
 
@@ -55,7 +59,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('fetchArticles');
+    this.fetchArticles();
   },
   computed: {
     ...mapState(['user', 'articles']),
@@ -69,7 +73,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['signOut']),
+    ...mapActions(['signOut', 'fetchArticles', 'deleteArticle']),
     confirmSignOut() {
       this.$bvModal
         .msgBoxConfirm('Are you sure?')
@@ -79,11 +83,20 @@ export default {
           }
         });
     },
+    handleAdd() {
+      this.$router.push('/admin/article-add');
+    },
     handleEdit(id) {
       this.$router.push(`/admin/article-edit/${id}`);
     },
     handleDelete(id) {
-      console.log(id);
+      this.$bvModal
+        .msgBoxConfirm('Are you sure?')
+        .then((confirm) => {
+          if (confirm) {
+            this.deleteArticle(id);
+          }
+        });
     },
   },
 };
