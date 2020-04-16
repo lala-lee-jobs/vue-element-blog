@@ -35,8 +35,7 @@
       </label>
     </div>
     <div class="text-center">
-      <b-spinner label="Spinning" v-if="loading"></b-spinner>
-      <button v-else
+      <button
         class="btn btn-lg btn-primary btn-block"
         type="submit"
         @click="login"

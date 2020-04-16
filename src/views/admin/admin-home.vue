@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user">
+  <div>
     <div class="d-flex my-2">
       <b-button @click="handleAdd">新增</b-button>
     </div>
@@ -9,12 +9,13 @@
           :key="index"
           class="d-flex justify-content-between align-items-center"
         >
-          <div class="d-flex">
-            <div class="mr-10">{{ item.title }}</div>
+          <div>
+            <div>{{ item.title }}</div>
             <h6>
               <template v-for="tag in item.tags">
                 <b-badge
-                  class="ml-1"
+                  variant="dark"
+                  class="mr-1"
                   :key="tag"
                 >{{ tag }}</b-badge>
               </template>
@@ -43,9 +44,6 @@
         </b-list-group-item>
       </template>
     </b-list-group>
-    <div>
-      <b-button @click="confirmSignOut">登出</b-button>
-    </div>
   </div>
 </template>
 
@@ -62,27 +60,10 @@ export default {
     this.fetchArticles();
   },
   computed: {
-    ...mapState(['user', 'articles']),
-  },
-  watch: {
-    user(value) {
-      console.log('user', value);
-      if (!value) {
-        this.$router.replace('/admin/sign-in');
-      }
-    },
+    ...mapState(['articles']),
   },
   methods: {
-    ...mapActions(['signOut', 'fetchArticles', 'deleteArticle']),
-    confirmSignOut() {
-      this.$bvModal
-        .msgBoxConfirm('Are you sure?')
-        .then((confirm) => {
-          if (confirm) {
-            this.signOut();
-          }
-        });
-    },
+    ...mapActions(['fetchArticles', 'deleteArticle']),
     handleAdd() {
       this.$router.push('/admin/article-add');
     },
