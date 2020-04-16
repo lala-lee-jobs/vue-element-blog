@@ -1,30 +1,20 @@
 <template>
-  <div>
-    <b-form>
-      <b-form-group
-        id="input-group-1"
-        label="文章標題:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="formData.title"
-          required
-          placeholder="Enter Title"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group
-        id="input-group-2"
-        label="文章內容:"
-        label-for="input-2"
-      >
-        <AppMarkdownEditor v-model="formData.content" />
-      </b-form-group>
-      <b-button
-        variant="primary"
-        @click="onSubmit"
-      >送出</b-button>
-    </b-form>
+  <div class="d-flex flex-column align-items-end">
+    <b-button
+      class="my-3"
+      variant="primary"
+      @click="onSubmit"
+    >送出</b-button>
+    <AppMarkdownEditor v-model="content" />
+    <b-alert
+      v-model="showErrorAlert"
+      class="position-fixed fixed-top m-0 rounded-0"
+      style="z-index: 2000;"
+      variant="danger"
+      dismissible
+    >
+      <markdown-it-vue class="md-body" :content="errorMessage" />
+    </b-alert>
   </div>
 </template>
 
@@ -39,10 +29,9 @@ export default {
   },
   data() {
     return {
-      formData: {
-        title: '',
-        content: '',
-      },
+      content: '',
+      errorMessage: '',
+      showErrorAlert: false,
     };
   },
   computed: {
@@ -50,10 +39,7 @@ export default {
   },
   watch: {
     article(value) {
-      this.formData = {
-        title: value.title,
-        content: value.content,
-      };
+      this.content = value.content;
     },
   },
   mounted() {
@@ -63,14 +49,32 @@ export default {
   methods: {
     ...mapActions(['fetchArticle', 'updateArticle']),
     async onSubmit() {
+      const { content } = this;
       const mdit = mavonEditor.getMarkdownIt();
       const env = {};
-      mdit.render(this.formData.content, env);
-      this.formData.title = env.title;
+      mdit.render(content, env);
+
+      const { title, tags } = env;
+      if (!title) {
+        this.showErrorAlert = true;
+        this.errorMessage = '請在文件開頭使用 `#` 或是 `=` 完成標題';
+        return;
+      }
+      if (!tags || tags.length === 0) {
+        this.showErrorAlert = true;
+        this.errorMessage = '請在文件內使用 `###### tags: `，至少加上一個tag';
+        return;
+      }
+
       const { id } = this.$route.params;
       const submitData = {
         id,
-        newArticle: { ...this.article, ...this.formData },
+        newArticle: {
+          ...this.article,
+          title,
+          content,
+          tags,
+        },
       };
       await this.updateArticle(submitData);
       this.goBack();
